@@ -1,0 +1,18 @@
+= JavaWebMail
+
+WTF? Another web mail client? Why?
+
+This is meant to be the world's _most minimal mail messager_ for Java EE Web.
+It only intends to:
+
+. display a list of messages;
+. view the text of a given message;
+. reply to a message;
+. compose a new message.
+
+No attachments. No mailing lists or address book. Just the absolute bare bones.
+
+Why? So it has few dependencies and is easy to install and maintain, that's why.
+Because it's all I need - I mostly read email with IMAP, but sometimes have to
+work behind crazy firewalls where only HTTP is permitted. So I need to be able
+to peep at my messages, but that's all.
