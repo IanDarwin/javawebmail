@@ -1,6 +1,7 @@
 package com.darwinsys.jmail;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Message {
 	LocalDateTime date = LocalDateTime.now();
@@ -10,6 +11,10 @@ public class Message {
 	
 	public LocalDateTime getDate() {
 		return date;
+	}
+	
+	public String getDateString() {
+		return date.format(DateTimeFormatter.ofPattern("yyyy MM dd hh:mm"));
 	}
 	
 	public String getSender() {
