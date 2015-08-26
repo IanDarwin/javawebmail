@@ -1,11 +1,13 @@
 package com.darwinsys.jmail;
 
-import java.util.Arrays;
-import java.util.List;
-
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
+import javax.mail.Store;
 
 @ManagedBean
 public class Mail {
@@ -13,17 +15,34 @@ public class Mail {
 	@Resource(mappedName="java:jboss/mail/Default")
 	Session mSession;
 	
+	Store mStore;
+	
+	Message[] list;
+
+	// XXX compile it from java.net project...
+	private String mboxProvider = null;
+	
 	public Mail() {
 		System.out.println("Mail.Mail()");
 	}
 	
-	private List<Message> list = Arrays.asList(
-		new Message[] { new Message(), new Message(), new Message() }
-	);
+	@PostConstruct
+	public void initStore() {
+		try {
+			mStore = mSession.getStore(mboxProvider);
+		} catch (NoSuchProviderException e) {
+			throw new RuntimeException("getStore failed: " + e, e);
+		}
+	}
 
-	public List<Message> getList() {
-		System.out.println("Mail Session = " + mSession);
-		System.out.println("List size = " + list.size());
-		return list;
+	public Message[] getList() {
+		try {
+			System.out.println("Mail Session = " + mSession);
+			list = mStore.getDefaultFolder().getMessages();
+			System.out.println("List size = " + list.length);
+			return list;
+		} catch (MessagingException e) {
+			throw new RuntimeException("Mail failure: " + e, e);
+		}
 	}
 }
