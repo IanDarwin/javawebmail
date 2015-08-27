@@ -7,7 +7,7 @@
 	<display-name>JavaWebMail</display-name>
 
 	<welcome-file-list>
-		<welcome-file>MailList.web</welcome-file>
+		<welcome-file>login.web</welcome-file>
 	</welcome-file-list>
 
 	<!-- JSF Servlet -->
@@ -20,31 +20,6 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.web</url-pattern>
 	</servlet-mapping>
-
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<realm-name>Mail Area</realm-name>
-		<form-login-config>
-			<form-login-page>/login.jsp</form-login-page>
-			<form-error-page>/loginfailure.jsp</form-error-page>
-		</form-login-config>
-	</login-config>
-
-	<security-constraint>
-		<display-name>Mail Area</display-name>
-		<web-resource-collection>
-			<web-resource-name>Mail Area</web-resource-name>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>mail_reader</role-name>
-		</auth-constraint>
-		<!--
-		<user-data-constraint>
-			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-		</user-data-constraint>
-		-->
-	</security-constraint>
 
 	<!-- error pages -->
 	<error-page>
