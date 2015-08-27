@@ -39,7 +39,6 @@ public class Mail {
 	
 	public String login() {
 		System.out.println("Mail.login(): username " + userName);
-		System.out.println("... pass = " + password);
 		try {
 			mStore = mSession.getStore("imaps");
 			mStore.connect(userName, password);
