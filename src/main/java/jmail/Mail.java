@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -32,9 +33,10 @@ public class Mail {
 	public void initProps() {
 		System.out.println("Mail.initProps()");
 		p = mSession.getProperties();
-		p.setProperty("mail.imap.host", "dos.old");
-		p.setProperty("mail.imap.ssl.trust", "dos.old");
-		p.put("mail.imap.ssl.enable", true);
+		p.setProperty("mail.imaps.host", "dos.old");
+		p.put("mail.imaps.starttls.enable", true);
+		p.setProperty("mail.imaps.ssl.trust", "dos.old");
+		p.put("mail.imaps.ssl.enable", true);
 	}
 	
 	public String login() {
@@ -42,6 +44,8 @@ public class Mail {
 		try {
 			mStore = mSession.getStore("imaps");
 			mStore.connect(userName, password);
+			// That didn't throw an exception, so:
+			loggedIn = true;
 		} catch (MessagingException e) {
 			throw new RuntimeException("getStore failed: " + e, e);
 		}
@@ -51,7 +55,23 @@ public class Mail {
 	public Message[] getList() {
 		System.out.println("Mail.getList(): Mail Session = " + mSession);
 		try {
-			list = mStore.getDefaultFolder().getMessages();
+			Folder folder = mStore.getFolder("INBOX");
+			System.out.println("Folder is " + folder);
+			if ((folder.getType() & Folder.HOLDS_MESSAGES) != 0) {
+				System.out.printf("%d Messages\n", folder.getMessageCount());
+				if (folder.hasNewMessages()) {
+					System.out.printf("%d new Messages\n", folder.getNewMessageCount());
+				}
+				System.out.printf("%d unread mMessages\n", folder.getUnreadMessageCount());
+			}
+			if ((folder.getType() & Folder.HOLDS_FOLDERS) != 0) {
+				System.out.println("Has subfolders:");
+				for (Folder f : folder.list()) {
+					System.out.println("\t" + f);
+				}
+			}
+
+			list = folder.getMessages();
 			System.out.println("List size = " + list.length);
 			// order by date descending:
 			Arrays.sort(list, (m1,m2)->{
