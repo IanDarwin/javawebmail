@@ -1,5 +1,7 @@
 package jmail;
 
+import java.util.List;
+
 public interface AliasProvider {
 
 	List<Alias> getAllAliases();

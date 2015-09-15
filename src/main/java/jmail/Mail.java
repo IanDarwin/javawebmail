@@ -32,8 +32,8 @@ public class Mail {
 	public void initProps() {
 		System.out.println("Mail.initProps()");
 		p = mSession.getProperties();
-		p.setProperty("mail.imap.host", "localhost");
-		p.setProperty("mail.imap.ssl.trust", "dos.old localhost");
+		p.setProperty("mail.imap.host", "dos.old");
+		p.setProperty("mail.imap.ssl.trust", "dos.old");
 		p.put("mail.imap.ssl.enable", true);
 	}
 	
