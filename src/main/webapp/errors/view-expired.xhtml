@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    template="/template/template.xhtml">
+
+    <ui:param name="showGlobalMessages" value="false"/>
+    
+    <ui:define name="title">Java Web Mail: View Expired Error Page</ui:define>
+    
+    <ui:define name="body">
+
+        <h1>Error</h1>
+        <p>Your view has expired, to our chagrin.
+        Please hit the Back button, then re-load the page and try again!
+        </p>
+
+        <h:messages id="errorMessage" styleClass="message"/>
+
+    </ui:define>
+</ui:composition>

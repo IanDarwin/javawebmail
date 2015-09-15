@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    template="/template/template.xhtml">
+
+	<!-- XXX Set this false in production -->
+    <ui:param name="showGlobalMessages" value="true"/>
+    
+    <ui:define name="title">Java Web Mail: Error Page</ui:define>
+    
+    <ui:define name="body">
+
+        <h1>Error</h1>
+        <p>We've encountered an error in this request,
+        for which we apologize.
+		It's been logged on the server and, if you're really lucky,
+		someone will notice it and fix the problem for you.
+        </p>
+
+        <h:messages id="errorMessage" styleClass="message"/>
+
+    </ui:define>
+</ui:composition>
