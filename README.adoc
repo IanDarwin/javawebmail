@@ -16,3 +16,11 @@ Why? So it has few dependencies and is easy to install and maintain, that's why.
 Because it's all I need - I mostly read email with IMAP, but sometimes have to
 work behind crazy firewalls where only HTTP is permitted. So I need to be able
 to peep at my messages, but that's all.
+
+== Status
+
+Gets this far:
+----
+Sep 14 21:16:59 amnesia imapd[30692]: Unable to accept SSL connection, host=some.host.name [1.2.3.4]
+Sep 14 21:16:59 amnesia imapd[30692]: SSL error status: error:140760FC:SSL routines:SSL23_GET_CLIENT_HELLO:unknown protocol
+----
