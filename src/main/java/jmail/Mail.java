@@ -1,4 +1,4 @@
-package com.darwinsys.jmail;
+package jmail;
 
 import java.util.Arrays;
 import java.util.Properties;
