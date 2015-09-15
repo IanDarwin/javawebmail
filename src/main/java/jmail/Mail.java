@@ -45,7 +45,7 @@ public class Mail {
 		} catch (MessagingException e) {
 			throw new RuntimeException("getStore failed: " + e, e);
 		}
-		return "MailList";
+		return "Inbox";
 	}
 
 	public Message[] getList() {
