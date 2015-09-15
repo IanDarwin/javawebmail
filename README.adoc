@@ -19,7 +19,13 @@ to peep at my messages, but that's all.
 
 == Status
 
-Gets this far:
+Gets this on our end:
+----
+Caused by: javax.mail.AuthenticationFailedException: failed to connect
+----
+
+And this on the server end:
+
 ----
 Sep 14 21:16:59 amnesia imapd[30692]: Unable to accept SSL connection, host=some.host.name [1.2.3.4]
 Sep 14 21:16:59 amnesia imapd[30692]: SSL error status: error:140760FC:SSL routines:SSL23_GET_CLIENT_HELLO:unknown protocol
