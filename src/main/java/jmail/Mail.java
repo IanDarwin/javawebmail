@@ -1,7 +1,7 @@
 package jmail;
 
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -13,8 +13,12 @@ import javax.faces.bean.SessionScoped;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.internet.ContentType;
+import javax.mail.internet.MimeMultipart;
 
 /**
  * The main program for the Mail application.
@@ -148,11 +152,41 @@ public class Mail {
 		return message;
 	}
 	
+	/** Return the textual content of the message as a String;
+	 * for now, parts containing "image", "application", etc are dropped.
+	 * @return The message
+	 * @throws Exception If anything goes wrong.
+	 */
 	public String getContent() throws Exception {
+		final Object content = message.getContent();
+		if (content instanceof MimeMultipart) {
+			StringBuilder sb = new StringBuilder();
+			Multipart multipart = (Multipart)content;
+			for (int pNum = 1; pNum < multipart.getCount(); pNum++) {
+				Part part = multipart.getBodyPart(pNum);
+
+				String sct = part.getContentType();
+				if (sct == null) {
+					throw new IllegalArgumentException("invalid part");
+				}
+				ContentType ct = new ContentType(sct);
+				System.out.println("PART " + pNum + " CT " + ct);
+				if (ct.getPrimaryType().equals("text")) {
+					InputStream is = part.getInputStream();
+					int i;
+					while ((i = is.read()) != -1) {
+						char ch = (char)i;
+						sb.append(ch == '\n' ? "<br/>" : ch);
+					}
+					sb.append("<br/><br/>");
+				}
+			}
+			return sb.toString();
+		}
 		return message == null ? "" :
-			message.getContent().
-				toString().
-				replaceAll("<", "&lt;").
-				replaceAll("\n", "<br/>");
+			content.
+			toString().
+			replaceAll("<", "&lt;").
+			replaceAll("\n", "<br/>");
 	}
 }
