@@ -34,7 +34,7 @@
 
 		<p><b>Subject:</b> <b><h:outputText value="#{mail.message.subject}"/></b></p>
 
-		<p><b>Message-Id:</b> <b><h:outputText value="#{mail.message.getHeader('message-id')}"/></b></p>
+		<p><b>Message-Id:</b> <b><h:outputText value="#{mail.message.getHeader('message-id')[0]}"/></b></p>
 
 		<p><h:outputText escape="false" value=" #{mail.content}"/></p>
 
