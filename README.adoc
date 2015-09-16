@@ -24,3 +24,5 @@ non-HTML messages in the Message page. Woohoo!
 
 TODO: cache the list so we don't re-fetch it on every Inbox view, as this seems
 to be very expensive.
+
+Use redirects, at least from login to Inbox...
