@@ -8,8 +8,11 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -18,6 +21,9 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.ContentType;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
 
 /**
@@ -60,7 +66,8 @@ public class Mail {
 			// That didn't throw an exception, so:
 			loggedIn = true;
 		} catch (MessagingException e) {
-			throw new RuntimeException("getStore failed: " + e, e);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login failed."));
+			return "login";
 		}
 		return "Inbox" + FORCE_REDIRECT;
 	}
@@ -84,6 +91,11 @@ public class Mail {
 			if (!folder.isOpen()) { 
 				folder.open(Folder.READ_WRITE); 
 			}
+		} catch (Exception ex) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Folder open failed."));
+			return Collections.emptyList();
+		}
+		try {
 			System.out.println("Folder is " + folder);
 			final int messageCount = folder.getMessageCount();
 			if ((folder.getType() & Folder.HOLDS_MESSAGES) != 0) {
@@ -114,16 +126,22 @@ public class Mail {
 			});
 			return subList;
 		} catch (MessagingException e) {
-			throw new RuntimeException("Mail failure: " + e, e);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mail retrieval failed."));
+			e.printStackTrace();
+			return Collections.emptyList();
 		}
 	}
 	
-	public String submit(Message m) {
+	public String submit(MessageBean mb) throws MessagingException {
 		if (!loggedIn) {
 			return "login" + FORCE_REDIRECT;
 		}
-		// Do some work
 		
+		Message m = new MimeMessage(mSession);
+		
+		m.setFrom(new InternetAddress(mb.getSender()));
+		m.addFrom(new InternetAddress[]{new InternetAddress(mb.getSender())});
+		m.setRecipient(RecipientType.TO, new InternetAddress(mb.getRecipient()));
 		return "Inbox" + FORCE_REDIRECT;
 	}
 	
