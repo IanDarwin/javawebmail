@@ -19,4 +19,4 @@ to peep at my messages, but that's all.
 
 == Status
 
-Connects, aborts with "folder not open". Need code from listFolder().
+Connects, prints a few mail messages in the Inbox page.
