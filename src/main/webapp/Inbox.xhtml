@@ -36,6 +36,7 @@
 		<p:column style="width: 50%">
 			<f:facet name="header">Subject</f:facet>
 			<h:outputLink value="Message.web">
+				<f:param name="messageNumber" value="#{message.messageNumber}"/>
 				<h:outputText value="#{message.subject}"/>
 			</h:outputLink>
 		</p:column>

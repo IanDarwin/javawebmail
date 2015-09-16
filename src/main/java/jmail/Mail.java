@@ -21,6 +21,8 @@ public class Mail {
 
 	@Resource(mappedName="java:jboss/mail/Default")
 	private Session mSession;
+	private Folder folder;
+	private Message message;
 	private Properties p;
 	private Store mStore;
 	private boolean loggedIn;
@@ -57,7 +59,7 @@ public class Mail {
 	public List<Message> getList() {
 		System.out.println("Mail.getList(): Mail Session = " + mSession);
 		try {
-			Folder folder = mStore.getFolder("INBOX");
+			folder = mStore.getFolder("INBOX");
 			if (!folder.isOpen()) { 
 				folder.open(Folder.READ_WRITE); 
 			}
@@ -111,5 +113,32 @@ public class Mail {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	/** Only called from JSF page */
+	public void wireMessage(int number) throws MessagingException {
+		if (folder == null) {
+			message = null;
+			return;
+		}
+		if (number < 1) {
+			System.err.println("wireMessage: invalid messageNumber " + number);
+			message = null;
+			return;
+		}
+		message = folder.getMessage(number);
+		
+	}
+	
+	public Message getMessage() {
+		return message;
+	}
+	
+	public String getContent() throws Exception {
+		return message == null ? "" :
+			message.getContent().
+				toString().
+				replaceAll("<", "&lt;").
+				replaceAll("\n", "<br/>");
 	}
 }
