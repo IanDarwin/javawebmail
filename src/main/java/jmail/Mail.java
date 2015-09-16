@@ -73,6 +73,7 @@ public class Mail {
 		if (folder.isOpen()) {
 			folder.close(false);
 		}
+		loggedIn = false;
 		return "index" + FORCE_REDIRECT;
 	}
 
@@ -152,7 +153,6 @@ public class Mail {
 			return;
 		}
 		message = folder.getMessage(number);
-		
 	}
 	
 	public Message getMessage() {
