@@ -10,6 +10,8 @@
 <ui:define name="pageTitle">Your Inbox</ui:define>
 <ui:define name="body">
 
+	<h:messages/>
+
 	<p:panel rendered="#{!mail.loggedIn}">
 		Please login first!
 	</p:panel>
