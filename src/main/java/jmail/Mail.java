@@ -64,6 +64,17 @@ public class Mail {
 		}
 		return "Inbox" + FORCE_REDIRECT;
 	}
+	
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+	
+	public String logout() throws MessagingException {
+		if (folder.isOpen()) {
+			folder.close(false);
+		}
+		return "index" + FORCE_REDIRECT;
+	}
 
 	public List<Message> getList() {
 		System.out.println("Mail.getList(): Mail Session = " + mSession);
@@ -113,10 +124,6 @@ public class Mail {
 		// Do some work
 		
 		return "Inbox" + FORCE_REDIRECT;
-	}
-	
-	public boolean isLoggedIn() {
-		return loggedIn;
 	}
 	
 	public String getUserName() {
