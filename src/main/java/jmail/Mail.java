@@ -102,6 +102,15 @@ public class Mail {
 		}
 	}
 	
+	public String submit(Message m) {
+		if (!loggedIn) {
+			return "login" + FORCE_REDIRECT;
+		}
+		// Do some work
+		
+		return "Inbox" + FORCE_REDIRECT;
+	}
+	
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
