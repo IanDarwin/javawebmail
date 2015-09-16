@@ -21,7 +21,6 @@ public class Mail {
 	private Properties p;
 	private Store mStore;
 	private boolean loggedIn;
-	private Message[] list;
 	private String userName;
 	private String password;
 
@@ -56,6 +55,9 @@ public class Mail {
 		System.out.println("Mail.getList(): Mail Session = " + mSession);
 		try {
 			Folder folder = mStore.getFolder("INBOX");
+			if (!folder.isOpen()) { 
+				folder.open(Folder.READ_WRITE); 
+			}
 			System.out.println("Folder is " + folder);
 			if ((folder.getType() & Folder.HOLDS_MESSAGES) != 0) {
 				System.out.printf("%d Messages\n", folder.getMessageCount());
@@ -71,17 +73,20 @@ public class Mail {
 				}
 			}
 
-			list = folder.getMessages();
-			System.out.println("List size = " + list.length);
+			Message[] subList = new Message[50];
+			for (int i = 0; i < 50; i++) {
+				subList[i] = folder.getMessage(i + 1);
+			}
+			System.out.println("List size = " + subList.length);
 			// order by date descending:
-			Arrays.sort(list, (m1,m2)->{
+			Arrays.sort(subList, (m1,m2)->{
 				try {
 					return m2.getSentDate().compareTo(m1.getSentDate());
 				} catch (MessagingException e) {
 					throw new RuntimeException("Mail error: " + e, e);
 				}
 			});
-			return list;
+			return subList;
 		} catch (MessagingException e) {
 			throw new RuntimeException("Mail failure: " + e, e);
 		}
