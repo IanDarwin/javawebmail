@@ -17,16 +17,16 @@
 		<h:panelGrid columns='2'>
 		
 			<h:outputText value="To:"/>
-			<h:inputText  value="xyz@abc.com"/>
+			<h:inputText  value="#{mb.recipient}"/>
 
 			<h:outputText value="From:"/>
-			<h:inputText  value="#{mail.userName}"/>
+			<h:ouputText  value="#{mail.userName}"/>
 
 			<h:outputText value="Subject:"/>
-			<h:inputText  value="your mail"/>
+			<h:inputText  value="#{mb.subject}"/>
 
 			<h:outputText value=""/>
-			<h:inputTextarea rows="20" cols="60"/>
+			<h:inputTextarea value="#{mb.body}" rows="20" cols="60"/>
 		
 		</h:panelGrid>
 
