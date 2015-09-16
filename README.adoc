@@ -19,4 +19,8 @@ to peep at my messages, but that's all.
 
 == Status
 
-Connects, prints a few mail messages in the Inbox page.
+Connects, prints a few mail messages in the Inbox page, lets you view 
+non-HTML messages in the Message page. Woohoo!
+
+TODO: cache the list so we don't re-fetch it on every Inbox view, as this seems
+to be very expensive.
