@@ -16,8 +16,13 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 
+/**
+ * The main program for the Mail application.
+ */
 @ManagedBean @SessionScoped
 public class Mail {
+
+	private static final String FORCE_REDIRECT = "?faces-redirect=true";
 
 	@Resource(mappedName="java:jboss/mail/Default")
 	private Session mSession;
@@ -53,7 +58,7 @@ public class Mail {
 		} catch (MessagingException e) {
 			throw new RuntimeException("getStore failed: " + e, e);
 		}
-		return "Inbox";
+		return "Inbox" + FORCE_REDIRECT;
 	}
 
 	public List<Message> getList() {
