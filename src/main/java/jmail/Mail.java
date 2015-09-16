@@ -1,6 +1,9 @@
 package jmail;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -51,7 +54,7 @@ public class Mail {
 		return "Inbox";
 	}
 
-	public Message[] getList() {
+	public List<Message> getList() {
 		System.out.println("Mail.getList(): Mail Session = " + mSession);
 		try {
 			Folder folder = mStore.getFolder("INBOX");
@@ -59,8 +62,9 @@ public class Mail {
 				folder.open(Folder.READ_WRITE); 
 			}
 			System.out.println("Folder is " + folder);
+			final int messageCount = folder.getMessageCount();
 			if ((folder.getType() & Folder.HOLDS_MESSAGES) != 0) {
-				System.out.printf("%d Messages\n", folder.getMessageCount());
+				System.out.printf("%d Messages\n", messageCount);
 				if (folder.hasNewMessages()) {
 					System.out.printf("%d new Messages\n", folder.getNewMessageCount());
 				}
@@ -73,13 +77,12 @@ public class Mail {
 				}
 			}
 
-			Message[] subList = new Message[50];
-			for (int i = 0; i < 50; i++) {
-				subList[i] = folder.getMessage(i + 1);
+			List<Message> subList = new ArrayList<>();
+			for (int i = messageCount; i > 0 && subList.size() <= 50; i--) {
+				subList.add(folder.getMessage(i));
 			}
-			System.out.println("List size = " + subList.length);
 			// order by date descending:
-			Arrays.sort(subList, (m1,m2)->{
+			Collections.sort(subList, (m1,m2)->{
 				try {
 					return m2.getSentDate().compareTo(m1.getSentDate());
 				} catch (MessagingException e) {
