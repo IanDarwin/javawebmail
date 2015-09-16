@@ -22,10 +22,11 @@
 		</h:outputLink>
 		#{'  '}
         <h:outputText value="Welcome #{mail.userName}" rendered="#{mail.loggedIn}"/>
+		#{'  '}
         <h:outputLink value="login.web" rendered="#{not mail.loggedIn}">
 			Login
 		</h:outputLink>
-        <h:outputLink value="index.web" action="#{mail.logout}" 
-			rendered="#{mail.loggedIn}">Logout</h:outputLink>
+        <h:outputLink value="index.web" rendered="#{mail.loggedIn}" 
+			action="#{mail.logout}">Logout</h:outputLink>
     </p:toolbarGroup>
 </p:toolbar>
