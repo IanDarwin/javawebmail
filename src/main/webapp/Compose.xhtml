@@ -7,15 +7,32 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/template/template.xhtml">
 
-<ui:define name="pageTitle">Your Inbox On A Dime</ui:define>
+<ui:define name="pageTitle">New Message</ui:define>
 <ui:define name="body">
 
     <h:form>
+	<h:outputText value="Please log in first!" rendered="#{!mail.loggedIn}"/>
+    <p:panel name="Compose" rendered="#{mail.loggedIn}">
 
-		<p>This will someday be a compose window..</p>
+		<h:panelGrid columns='2'>
+		
+			<h:outputText value="To:"/>
+			<h:inputText  value="xyz@abc.com"/>
 
-		<p>It is nowhere close to working.</p>
+			<h:outputText value="From:"/>
+			<h:inputText  value="#{mail.username}"/>
 
+			<h:outputText value="Subject:"/>
+			<h:inputText  value="your mail"/>
+
+			<h:outputText value=""/>
+			<h:inputTextarea rows="20" cols="60"/>
+		
+		</h:panelGrid>
+
+		<h:commandButton value="Send It" action="#{mail.submit(message)}"/>
+
+    </p:panel>
     </h:form>
 </ui:define>
 </ui:composition>
