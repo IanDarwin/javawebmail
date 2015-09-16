@@ -12,7 +12,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -20,6 +19,7 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.Transport;
 import javax.mail.internet.ContentType;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -43,6 +43,7 @@ public class Mail {
 	private boolean loggedIn;
 	private String userName;
 	private String password;
+	private final static String DOMAIN = "darwinsys.com";
 
 	public Mail() {
 		System.out.println("Mail.Mail()");
@@ -116,14 +117,7 @@ public class Mail {
 			for (int i = messageCount; i > 0 && subList.size() <= 50; i--) {
 				subList.add(folder.getMessage(i));
 			}
-			// order by date descending:
-			Collections.sort(subList, (m1,m2)->{
-				try {
-					return m2.getSentDate().compareTo(m1.getSentDate());
-				} catch (MessagingException e) {
-					throw new RuntimeException("Mail error: " + e, e);
-				}
-			});
+
 			return subList;
 		} catch (MessagingException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mail retrieval failed."));
@@ -132,17 +126,30 @@ public class Mail {
 		}
 	}
 	
-	public String submit(MessageBean mb) throws MessagingException {
+	public String submit(MessageBean mb) {
 		if (!loggedIn) {
 			return "login" + FORCE_REDIRECT;
+		}
+		if (mb == null) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("submit(): MessageBean is null!"));
+			return "";	// Stay on same page
 		}
 		
 		Message m = new MimeMessage(mSession);
 		
-		m.setFrom(new InternetAddress(mb.getSender()));
-		m.addFrom(new InternetAddress[]{new InternetAddress(mb.getSender())});
-		m.setRecipient(RecipientType.TO, new InternetAddress(mb.getRecipient()));
-		return "Inbox" + FORCE_REDIRECT;
+		try {
+			m.setFrom(new InternetAddress(getUserName() + "@" + DOMAIN));
+			m.setRecipient(RecipientType.TO, new InternetAddress(mb.getRecipient()));
+			m.setSubject(mb.getSubject());
+	
+			Transport.send(m);
+			
+			return "index" + FORCE_REDIRECT;
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mail sending failed:" + e));
+			e.printStackTrace();
+			return "";
+		}
 	}
 	
 	public String getUserName() {
@@ -183,6 +190,9 @@ public class Mail {
 	 * @throws Exception If anything goes wrong.
 	 */
 	public String getContent() throws Exception {
+		if (message == null) {
+			throw new IllegalStateException("called getContent with no Message focus");
+		}
 		final Object content = message.getContent();
 		if (content instanceof MimeMultipart) {
 			StringBuilder sb = new StringBuilder();
@@ -195,8 +205,8 @@ public class Mail {
 					throw new IllegalArgumentException("invalid part");
 				}
 				ContentType ct = new ContentType(sct);
-				System.out.println("PART " + pNum + " CT " + ct);
-				if (ct.getPrimaryType().equals("text")) {
+				System.out.println("Mesg " + message.getMessageNumber() + "; PART " + pNum + " ContentType " + ct);
+				if (ct.getPrimaryType().equals("TEXT")) {
 					InputStream is = part.getInputStream();
 					int i;
 					while ((i = is.read()) != -1) {
