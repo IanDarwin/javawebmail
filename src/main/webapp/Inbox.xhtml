@@ -17,7 +17,7 @@
 	<p:panel rendered="#{mail.loggedIn}">
 	<!-- Print the table, or, an error -->
 	<h:outputText
-		value="Hurrah - you've achieved Inbox Zero!"
+		value="Hurrah - seems you've achieved Inbox Zero!"
 		rendered="#{empty mail.list}"/>
 
 	<!-- Display the main part of the whole page. -->
@@ -35,16 +35,18 @@
 		</p:column>
 		<p:column style="width: 50%">
 			<f:facet name="header">Subject</f:facet>
-			<h:outputText value="#{message.subject}"/>
+			<h:outputLink value="Message.web">
+				<h:outputText value="#{message.subject}"/>
+			</h:outputLink>
 		</p:column>
 
 		<p:column style="width: 10%">
 			<f:facet name="header">Actions</f:facet>
-			<h:outputLink value="MessageView.web">
-				Read
-			</h:outputLink>
 			<h:outputLink value="MessageReply.web">
 				Reply
+			</h:outputLink>
+			<h:outputLink value="Delete.web">
+				Delete
 			</h:outputLink>
 		</p:column>
 	</p:dataTable>
