@@ -70,9 +70,10 @@ public class Mail {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login failed."));
 			return "login";
 		}
-		return "Inbox" + FORCE_REDIRECT;
+		addFacesMessage("Welcome aboard!");
+		return "index" + FORCE_REDIRECT;
 	}
-	
+
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
@@ -229,5 +230,12 @@ public class Mail {
 			toString().
 			replaceAll("<", "&lt;").
 			replaceAll("\n", "<br/>");
+	}
+	
+	/**
+	 * Add the message to the JSF context for display on the page
+	 */
+	public void addFacesMessage(String message) {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
 	}
 }
