@@ -141,6 +141,7 @@ public class Mail {
 			m.setFrom(new InternetAddress(getUserName() + "@" + DOMAIN));
 			m.setRecipient(RecipientType.TO, new InternetAddress(mb.getRecipient()));
 			m.setSubject(mb.getSubject());
+			m.setText(mb.getBody());
 	
 			Transport.send(m);
 			
