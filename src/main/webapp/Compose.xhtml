@@ -10,6 +10,7 @@
 <ui:define name="title">Mail: Compose</ui:define>
 <ui:define name="body">
 
+	<h:messages/>
     <h:form>
 	<h:outputText value="Please log in first!" rendered="#{!mail.loggedIn}"/>
     <p:panel name="Compose" rendered="#{mail.loggedIn}">
