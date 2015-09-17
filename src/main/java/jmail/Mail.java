@@ -128,6 +128,8 @@ public class Mail {
 	
 	public String submit(MessageBean mb) {
 		if (!loggedIn) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login required"));
+			
 			return "login" + FORCE_REDIRECT;
 		}
 		if (mb == null) {
@@ -138,12 +140,15 @@ public class Mail {
 		Message m = new MimeMessage(mSession);
 		
 		try {
+			// SEND IT!!!!!
 			m.setFrom(new InternetAddress(getUserName() + "@" + DOMAIN));
 			m.setRecipient(RecipientType.TO, new InternetAddress(mb.getRecipient()));
 			m.setSubject(mb.getSubject());
 			m.setText(mb.getBody());
 	
 			Transport.send(m);
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mail accepted by server for delivery!"));
 			
 			return "index" + FORCE_REDIRECT;
 		} catch (Exception e) {
