@@ -253,16 +253,4 @@ public class Mail {
 		System.err.println("GoTo Next ");
 		return "Inbox" + FORCE_REDIRECT;
 	}
-		
-}
-		
-}
-	
-	public String gotoNext() {
-		System.err.println("GoTo Next ");
-		return "Inbox" + FORCE_REDIRECT;
-	}
-		
-}
-		
 }
