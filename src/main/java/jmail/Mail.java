@@ -240,9 +240,19 @@ public class Mail {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
 	}
 	
+	/**
+	 * Find a Message in mFolder by message id. MAY RETURN NULL!!
+	 * @param messageId The id to look for
+	 * @return The message, or null
+	 * @throws MessagingException If JavaMail decides to have a hissy fit.
+	 */
 	Message findMessageById(String messageId) throws MessagingException {
 		for (Message m : folder.getMessages()) {
-			String h = m.getHeader("message-id")[0];
+			String[] headers = m.getHeader("message-id");
+			if (headers == null || headers.length == 0) {
+				return null;
+			}
+			String h = headers[0];
 			if (h != null && h.equals(messageId)) {
 				return m;
 			}
@@ -260,10 +270,14 @@ public class Mail {
 	public String delete(String messageId) throws MessagingException {
 		System.err.println("Delete " + messageId);
 		Message dm = findMessageById(messageId);
-		if (dm != null) {
+		if (dm == null) {
+			addFacesMessage("Message Not Found!");
+			// Don't return here, still go to the list.
+		} else {
 			dm.setFlag(Flags.Flag.DELETED, true);
+			folder.expunge();
+			addFacesMessage("Message deleted");
 		}
-		folder.expunge();
 		return "Inbox" + FORCE_REDIRECT;
 	}
 
