@@ -45,7 +45,7 @@
 		<p><b>Subject:</b> <b><h:outputText value="#{mail.message.subject}"/></b></p>
 
 		<p><b>Message-Id:</b> 
-		<ui:repeat> var="messageId" value="#{mail.message.getHeader('message-id')}">
+		<ui:repeat var="messageId" value="#{mail.message.getHeader('message-id')}">
 			<h:outputText value="#{messageId}"/>
 		</ui:repeat></p>
 
