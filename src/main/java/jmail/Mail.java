@@ -238,4 +238,31 @@ public class Mail {
 	public void addFacesMessage(String message) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
 	}
+
+	public String delete(String messageId) {
+		System.err.println("Try to delete " + messageId);
+		return "Inbox" + FORCE_REDIRECT;
+	}
+
+	public String reply(String messageId) {
+		System.err.println("Try to reply " + messageId);
+		return "Inbox" + FORCE_REDIRECT;
+	}
+	
+	public String gotoNext() {
+		System.err.println("GoTo Next ");
+		return "Inbox" + FORCE_REDIRECT;
+	}
+		
+}
+		
+}
+	
+	public String gotoNext() {
+		System.err.println("GoTo Next ");
+		return "Inbox" + FORCE_REDIRECT;
+	}
+		
+}
+		
 }
