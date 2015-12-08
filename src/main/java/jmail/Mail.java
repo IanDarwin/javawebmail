@@ -146,4 +146,31 @@ public class Mail {
 				replaceAll("<", "&lt;").
 				replaceAll("\n", "<br/>");
 	}
+
+	public String delete(String messageId) {
+		System.err.println("Try to delete " + messageId);
+		return "Inbox" + FORCE_REDIRECT;
+	}
+
+	public String reply(String messageId) {
+		System.err.println("Try to reply " + messageId);
+		return "Inbox" + FORCE_REDIRECT;
+	}
+	
+	public String gotoNext() {
+		System.err.println("GoTo Next ");
+		return "Inbox" + FORCE_REDIRECT;
+	}
+		
+}
+		
+}
+	
+	public String gotoNext() {
+		System.err.println("GoTo Next ");
+		return "Inbox" + FORCE_REDIRECT;
+	}
+		
+}
+		
 }
