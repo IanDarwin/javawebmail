@@ -11,8 +11,9 @@
     <f:event type="preRenderView" listener="#{mail.wireMessage(request.getParameter('messageNumber'))}"/>
 </f:metadata>
 
-<ui:define name="pageTitle">Your Message</ui:define>
+<ui:define name="pageTitle">Mail: Message</ui:define>
 <ui:define name="body">
+	<h:messages/>
 
 	<p:panel rendered="#{!mail.loggedIn}">
 		Please login first!
@@ -20,8 +21,25 @@
 	
 	<p:panel rendered="#{mail.loggedIn}">
 
-		<p><b>From:</b> <h:outputText value="#{mail.message.from[0]}"/> </p>
-		<p><b>Subject:</b> <h:outputText value="#{mail.message.subject}"/> </p>
+		<p><b>From:</b> 
+			<ui:repeat var="from" value="#{mail.message.getFrom()}">
+				<h:outputText value="#{from}"/>
+			</ui:repeat>
+		</p>
+
+		<p><b>To:</b>
+			<ui:repeat var="to" value="#{mail.message.getAllRecipients()}">
+				<h:outputText value="#{to}"/>#{' '}
+			</ui:repeat>
+		</p>
+
+		<p><b>Subject:</b> <b><h:outputText value="#{mail.message.subject}"/></b></p>
+
+		<p><b>Message-Id:</b> 
+		<ui:repeat> var="messageId" value="#{mail.message.getHeader('message-id')}">
+			<h:outputText value="#{messageId}"/>
+		</ui:repeat></p>
+
 		<p><h:outputText escape="false" value=" #{mail.content}"/></p>
 
 	</p:panel>

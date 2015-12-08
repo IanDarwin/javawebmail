@@ -7,20 +7,21 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/template/template.xhtml">
 
-<ui:define name="pageTitle">Mail: Home</ui:define>
+<ui:define name="pageTitle">Mail: About</ui:define>
+
 <ui:define name="body">
-
+	<h1>About</h1>
 	<h:messages/>
-
-    <h:form>
-
-		<p>This is a simple Java email web client.</p>
-
-		<p>It is nowhere close to working.</p>
-
-        <p>Use the login in the menu above to get started.</p>
-
-    </h:form>
+	<p>
+	This is a web application for reading your email.
+	It is not for public use!
+	</p>
+	<p>
+	<i>Technology</i>: The site is built using 
+	JavaServer Faces (JSF) and
+	JavaMail API (part of Java Enterprise, Java EE).
+	It should run on any standard Java EE 7 (and maybe 6) Application Server.
+	Primarily developed and tested on JBoss WildFly.
+	</p>
 </ui:define>
 </ui:composition>
-
