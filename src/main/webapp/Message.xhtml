@@ -21,13 +21,14 @@
 	
 	<p:panel rendered="#{mail.loggedIn}">
 
-		<h:panelGroup>
-			<p:commandButton value="Next" ajax="false" action="#{mail.gotoNext}"/>
+		<h:form>
+			<p:commandButton value="Next" ajax="false" 
+				action="#{mail.gotoNext}"/>
 			<p:commandButton value="Reply" ajax="false" 
-				action"#{mail.reply(mail.message.messageId)}"/>
+				action="#{mail.reply(mail.message.messageId)}"/>
 			<p:commandButton value="Delete" ajax="false" 
-				action"#{mail.delete(mail.message.messageId)}"/>
-		</h:panelGroup>
+				action="#{mail.delete(mail.message.messageId)}"/>
+		</h:form>
 
 		<p><b>From:</b> 
 			<ui:repeat var="from" value="#{mail.message.getFrom()}">
