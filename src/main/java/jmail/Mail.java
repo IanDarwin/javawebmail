@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -238,9 +239,31 @@ public class Mail {
 	public void addFacesMessage(String message) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
 	}
+	
+	Message findMessageById(String messageId) throws MessagingException {
+		for (Message m : folder.getMessages()) {
+			String h = m.getHeader("message-id")[0];
+			if (h != null && h.equals(messageId)) {
+				return m;
+			}
+		}
+		return null;
+	}
 
-	public String delete(String messageId) {
-		System.err.println("Try to delete " + messageId);
+	/** Deleting messages is bloody dangerous, so we delete by message ID even though it's more
+	 * work, because of the possibility of concurrent updating by another client
+	 * (or even another tab in the same webmail app)...
+	 * @param messageId The Id of the message to delete
+	 * @return The message for this messageId
+	 * @throws MessagingException If things mess up
+	 */
+	public String delete(String messageId) throws MessagingException {
+		System.err.println("Delete " + messageId);
+		Message dm = findMessageById(messageId);
+		if (dm != null) {
+			dm.setFlag(Flags.Flag.DELETED, true);
+		}
+		folder.expunge();
 		return "Inbox" + FORCE_REDIRECT;
 	}
 
