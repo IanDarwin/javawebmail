@@ -251,15 +251,11 @@ public class Mail {
 	 * @throws MessagingException If JavaMail decides to have a hissy fit.
 	 */
 	Message findMessageById(String messageId) throws MessagingException {
-		
-		final int messageCount = mFolder.getMessageCount();
-		int n = 0;
-		for (int i = messageCount; i > 0; i--) {
-			Message m = mFolder.getMessage(i);
+		for (Message m : mFolder.getMessages()) {
 			// XXX check for deleted
 			String[] headers = m.getHeader("message-id");
 			if (headers == null || headers.length == 0) {
-				return null;
+				continue;
 			}
 			String h = headers[0];
 			if (h != null && h.equals(messageId)) {

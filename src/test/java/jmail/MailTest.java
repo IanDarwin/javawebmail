@@ -28,9 +28,11 @@ public class MailTest {
 		target.mFolder = f;
 		Message m1 = mock(Message.class);
 		Message m2 = mock(Message.class);
+		Message m3 = mock(Message.class);
 		when (m1.getHeader(MESSAGE_ID_HEADER)).thenReturn(new String[]{"bleah"});
 		when (m2.getHeader(MESSAGE_ID_HEADER)).thenReturn(new String[]{WANTED_MESSAGE_ID});
-		when (f.getMessages()).thenReturn(new Message[]{m1, m2});
+		when (m3.getHeader(MESSAGE_ID_HEADER)).thenReturn(new String[]{"three"});
+		when (f.getMessages()).thenReturn(new Message[]{m1, m2, m3});
 		Message message = target.findMessageById(WANTED_MESSAGE_ID);
 		assertNotNull(message);
 		assertSame(message, m2);
@@ -42,9 +44,11 @@ public class MailTest {
 		target.mFolder = f;
 		Message m1 = mock(Message.class);
 		Message m2 = mock(Message.class);
+		Message m3 = mock(Message.class);
 		when (m1.getHeader(MESSAGE_ID_HEADER)).thenReturn(new String[]{"bleah"});
 		when (m2.getHeader(MESSAGE_ID_HEADER)).thenReturn(new String[]{"meh"});
-		when (f.getMessages()).thenReturn(new Message[]{m1, m2});
+		when (m3.getHeader(MESSAGE_ID_HEADER)).thenReturn(new String[]{"three"});
+		when (f.getMessages()).thenReturn(new Message[]{m1, m2, m3});
 		Message message = target.findMessageById(WANTED_MESSAGE_ID);
 		assertNull(message);
 	}
