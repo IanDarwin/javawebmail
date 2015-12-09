@@ -33,6 +33,7 @@ import javax.mail.internet.MimeMultipart;
 @ManagedBean @SessionScoped
 public class Mail {
 
+	private static final String LIST_PAGE = "Inbox";
 	private static final String FORCE_REDIRECT = "?faces-redirect=true";
 
 	@Resource(mappedName="java:jboss/mail/Default")
@@ -72,7 +73,7 @@ public class Mail {
 			return "login";
 		}
 		addFacesMessage("Welcome aboard!");
-		return "index" + FORCE_REDIRECT;
+		return LIST_PAGE + FORCE_REDIRECT;
 	}
 
 	public boolean isLoggedIn() {
@@ -237,6 +238,7 @@ public class Mail {
 	 * Add the message to the JSF context for display on the page
 	 */
 	public void addFacesMessage(String message) {
+		System.out.println("Mail.addFacesMessage(): " + message);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
 	}
 	
@@ -253,7 +255,6 @@ public class Mail {
 				return null;
 			}
 			String h = headers[0];
-			System.out.println("Mail.findMessageById(): " + h);
 			if (h != null && h.equals(messageId)) {
 				return m;
 			}
@@ -279,16 +280,16 @@ public class Mail {
 			mFolder.expunge();
 			addFacesMessage("Message deleted");
 		}
-		return "Inbox" + FORCE_REDIRECT;
+		return LIST_PAGE + FORCE_REDIRECT;
 	}
 
 	public String reply(String messageId) {
 		System.err.println("Try to reply " + messageId);
-		return "Inbox" + FORCE_REDIRECT;
+		return LIST_PAGE + FORCE_REDIRECT;
 	}
 	
 	public String gotoNext() {
 		System.err.println("GoTo Next ");
-		return "Inbox" + FORCE_REDIRECT;
+		return LIST_PAGE + FORCE_REDIRECT;
 	}
 }
