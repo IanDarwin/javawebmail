@@ -37,7 +37,7 @@ public class Mail {
 
 	@Resource(mappedName="java:jboss/mail/Default")
 	private Session mSession;
-	private Folder folder;
+	Folder mFolder;
 	private Message message;
 	private Properties p;
 	private Store mStore;
@@ -80,8 +80,8 @@ public class Mail {
 	}
 	
 	public String logout() throws MessagingException {
-		if (folder.isOpen()) {
-			folder.close(false);
+		if (mFolder.isOpen()) {
+			mFolder.close(false);
 		}
 		loggedIn = false;
 		return "index" + FORCE_REDIRECT;
@@ -90,34 +90,34 @@ public class Mail {
 	public List<Message> getList() {
 		System.out.println("Mail.getList(): Mail Session = " + mSession);
 		try {
-			folder = mStore.getFolder("INBOX");
-			if (!folder.isOpen()) { 
-				folder.open(Folder.READ_WRITE); 
+			mFolder = mStore.getFolder("INBOX");
+			if (!mFolder.isOpen()) { 
+				mFolder.open(Folder.READ_WRITE); 
 			}
 		} catch (Exception ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Folder open failed."));
 			return Collections.emptyList();
 		}
 		try {
-			System.out.println("Folder is " + folder);
-			final int messageCount = folder.getMessageCount();
-			if ((folder.getType() & Folder.HOLDS_MESSAGES) != 0) {
+			System.out.println("Folder is " + mFolder);
+			final int messageCount = mFolder.getMessageCount();
+			if ((mFolder.getType() & Folder.HOLDS_MESSAGES) != 0) {
 				System.out.printf("%d Messages\n", messageCount);
-				if (folder.hasNewMessages()) {
-					System.out.printf("%d new Messages\n", folder.getNewMessageCount());
+				if (mFolder.hasNewMessages()) {
+					System.out.printf("%d new Messages\n", mFolder.getNewMessageCount());
 				}
-				System.out.printf("%d unread mMessages\n", folder.getUnreadMessageCount());
+				System.out.printf("%d unread mMessages\n", mFolder.getUnreadMessageCount());
 			}
-			if ((folder.getType() & Folder.HOLDS_FOLDERS) != 0) {
+			if ((mFolder.getType() & Folder.HOLDS_FOLDERS) != 0) {
 				System.out.println("Has subfolders:");
-				for (Folder f : folder.list()) {
+				for (Folder f : mFolder.list()) {
 					System.out.println("\t" + f);
 				}
 			}
 
 			List<Message> subList = new ArrayList<>();
 			for (int i = messageCount; i > 0 && subList.size() <= 50; i--) {
-				subList.add(folder.getMessage(i));
+				subList.add(mFolder.getMessage(i));
 			}
 
 			return subList;
@@ -176,7 +176,7 @@ public class Mail {
 	
 	/** Only called from JSF page */
 	public void wireMessage(int number) throws MessagingException {
-		if (folder == null) {
+		if (mFolder == null) {
 			message = null;
 			return;
 		}
@@ -185,7 +185,7 @@ public class Mail {
 			message = null;
 			return;
 		}
-		message = folder.getMessage(number);
+		message = mFolder.getMessage(number);
 	}
 	
 	public Message getMessage() {
@@ -247,12 +247,13 @@ public class Mail {
 	 * @throws MessagingException If JavaMail decides to have a hissy fit.
 	 */
 	Message findMessageById(String messageId) throws MessagingException {
-		for (Message m : folder.getMessages()) {
+		for (Message m : mFolder.getMessages()) {
 			String[] headers = m.getHeader("message-id");
 			if (headers == null || headers.length == 0) {
 				return null;
 			}
 			String h = headers[0];
+			System.out.println("Mail.findMessageById(): " + h);
 			if (h != null && h.equals(messageId)) {
 				return m;
 			}
@@ -275,7 +276,7 @@ public class Mail {
 			// Don't return here, still go to the list.
 		} else {
 			dm.setFlag(Flags.Flag.DELETED, true);
-			folder.expunge();
+			mFolder.expunge();
 			addFacesMessage("Message deleted");
 		}
 		return "Inbox" + FORCE_REDIRECT;
