@@ -118,7 +118,9 @@ public class Mail {
 
 			List<Message> subList = new ArrayList<>();
 			for (int i = messageCount; i > 0 && subList.size() <= 50; i--) {
-				subList.add(mFolder.getMessage(i));
+				Message m = mFolder.getMessage(i);
+				// XXX check for deleted
+				subList.add(m);
 			}
 
 			return subList;
@@ -249,7 +251,12 @@ public class Mail {
 	 * @throws MessagingException If JavaMail decides to have a hissy fit.
 	 */
 	Message findMessageById(String messageId) throws MessagingException {
-		for (Message m : mFolder.getMessages()) {
+		
+		final int messageCount = mFolder.getMessageCount();
+		int n = 0;
+		for (int i = messageCount; i > 0; i--) {
+			Message m = mFolder.getMessage(i);
+			// XXX check for deleted
 			String[] headers = m.getHeader("message-id");
 			if (headers == null || headers.length == 0) {
 				return null;
