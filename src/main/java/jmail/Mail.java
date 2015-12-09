@@ -34,7 +34,7 @@ import javax.mail.internet.MimeMultipart;
 public class Mail {
 
 	private static final String LIST_PAGE = "Inbox";
-	private static final String FORCE_REDIRECT = "?faces-redirect=true";
+	private static final String FORCE_REDIRECT = "";
 
 	@Resource(mappedName="java:jboss/mail/Default")
 	private Session mSession;
