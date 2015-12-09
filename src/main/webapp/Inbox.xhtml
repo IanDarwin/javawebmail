@@ -17,12 +17,9 @@
 	</p:panel>
 	
 	<p:panel rendered="#{mail.loggedIn}">
-	<!-- Print the table, or, an error -->
-	<h:outputText
-		value="Hurrah - seems you've achieved Inbox Zero!"
-		rendered="#{empty mail.list}"/>
-
-	<!-- Display the main part of the whole page. -->
+	<!-- Display the main part of the whole page. DO NOT
+	 *** add a message with rendered="#{empty mail.list}" because call is EXPENSIVE
+	 -->
 	<p:dataTable border='1' 
 		var="message" value="#{mail.list}" 
 		>
