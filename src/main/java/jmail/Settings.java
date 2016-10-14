@@ -19,7 +19,7 @@ public class Settings {
 	
 	@PostConstruct
 	public void readUserList() {
-		em.createQuery("from User", User.class).getResultList();
+		em.createQuery("from User").getResultList();
 	}
 
 	public boolean okHtml(User u, String fromAddress) {
