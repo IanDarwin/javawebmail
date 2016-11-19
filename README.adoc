@@ -22,9 +22,18 @@ to peep at my messages, but that's all.
 Connects, prints a few mail messages in the Inbox page, lets you view 
 non-HTML messages in the Message page. Woohoo!
 
+== How-To
+
+. Pick a web ap and contet (subdirectory):
+.. For wildfly deployment, `cd src/main/webapp/WEB-INF; cp jb*sample jboss-web.xml; vi jb*.xml`
+.. For other app servers, do what you do on them, or RTFM.
+. mvn package
+. Deploy. E.g, mvn wildfly:deploy
+. Visit http://localhost:8080/yourMailContext
+
 == TODO
 
-. Worry, a lot, about formatting, and concomitant security. Maybe show in raw, with a
+. Worry, a lot, about formatting, and concomitant HTML security. Maybe show in raw, with a
 button to view as HTML? Good security stance but may grow stale quickly.
 . There must be a Delete button. Better: checklist, select multiple, then delete (or moveTo...).
 . Maybe make messages (view and compose both) in a pop-up, so the list is always there?
