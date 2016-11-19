@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jboss-web>
-	<virtual-host>darwinsys.com</virtual-host>
-	<context-root>jmail</context-root>
-</jboss-web>
