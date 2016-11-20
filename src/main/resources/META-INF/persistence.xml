@@ -4,7 +4,7 @@
         http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_1.xsd"
     version="2.1">
    
-<persistence-unit name="cookbookweb" transaction-type="JTA">
+<persistence-unit name="javawebmail" transaction-type="JTA">
 	<!-- Uncomment one (and only one) of the following two persistence providers,
 	 *** after making sure that the given provider is on your classpath.
 	 -->
