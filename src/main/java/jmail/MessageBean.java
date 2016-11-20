@@ -3,8 +3,6 @@ package jmail;
 import javax.faces.bean.ManagedBean;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 @ManagedBean(name="mb") @ToString @EqualsAndHashCode
