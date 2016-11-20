@@ -1,0 +1,52 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+        http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_1.xsd"
+    version="2.1">
+   
+<persistence-unit name="javawebmail" transaction-type="RESOURCE_LOCAL">
+
+	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+	<class>jmail.Settings</class>
+	<class>jmail.User</class>
+
+	<exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+	<properties>
+
+		<!-- A local database, for dev/test -->
+		<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+		<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:clublist" />
+		<property name="javax.persistence.jdbc.user" value="sa" />
+		<property name="javax.persistence.jdbc.password" value="" />
+
+		<!-- Properties for eclipselink -->
+		<!--
+		<property name="eclipselink.target-database"
+			  value="org.eclipse.persistence.platform.database.MySqlPlatform"/>
+		-->
+		<property name="eclipselink.logging.level" value="OFF"/>
+		<property name="eclipselink.orm.throw.exceptions" value="true"/>
+		<property name="eclipselink.ddl-generation" value="update-tables"/>
+		<property name="eclipselink.ddl-generation.output-mode" value="database"/>
+
+		<!-- This causes the Hibernate-style import.sql to be run after creation. -->
+		<property name="javax.persistence.sql-load-script-source" value="file:///tmp/import.sql"/>
+		<property name="import.sql.file" value="/import.sql"/>
+		<property name="import.sql.trace" value="true"/>
+
+		<!-- Properties for Hibernate -->
+		<!-- For this first one, so sad, see
+		 https://issues.jboss.org/browse/WFLY-2727
+		 -->
+		<property name="wildfly.jpa.twophasebootstrap" value="false" />
+		<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+		<property name="hibernate.hbm2ddl.auto" value="update"/>
+		<property name="hibernate.show_sql" value="true"/>
+		<property name="hibernate.format_sql" value="false"/>
+		<property name="hibernate.archive.autodetection" value="class"/>
+
+		</properties>
+	</persistence-unit>
+</persistence>
