@@ -1,6 +1,6 @@
 = JavaWebMail
 
-WTF? Another web mail client? Why?
+WTF? _Another_ web email client? Why?
 
 This is meant to be the world's _most minimal mail messager_ for Java EE Web.
 It only intends to:
@@ -13,6 +13,10 @@ It only intends to:
 No attachments. No mailing lists or address book. Just the absolute bare bones.
 
 Why? So it has few dependencies and is easy to install and maintain, that's why.
+Well, that was the plan, initially. Dependency lists always seem to grow like Topsy.
+
+Which leaves us with...
+
 Because it's all I need - I mostly read email with IMAP, but sometimes have to
 work behind crazy firewalls where only HTTP is permitted. So I need to be able
 to peep at my messages, but that's all.
@@ -38,6 +42,6 @@ button to view as HTML? Good security stance but may grow stale quickly.
 . There must be a Delete button. Better: checklist, select multiple, then delete (or moveTo...).
 . Maybe make messages (view and compose both) in a pop-up, so the list is always there?
 . Cache the list so we don't re-fetch it on every Inbox view, as this seems to be very expensive.
-. Handle more than 50 messages (may be a non-issue when running directly on the mail server;
-might use mbox then; use PF datatable for sorting?).
+. Performance: Handle more than 50 messages - it times out well before loading 1,000 messages, for example. May be a non-issue if we switch it to using mbox provider; use PrimeFaces datatable for sorting?.
+. But with the mbox provider we have to handle authentication ourselves, with IMAP we use the IMAP account credentials.
 . Handle non-default mboxes.
