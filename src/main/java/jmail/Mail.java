@@ -207,6 +207,7 @@ public class Mail {
 		if (messageBean == null) {
 			messageBean = new MessageBean();
 		}
+		System.out.println("getMessageBean() returning " + messageBean);
 		return messageBean;
 	}
 	
