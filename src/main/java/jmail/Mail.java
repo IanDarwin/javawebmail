@@ -287,12 +287,12 @@ public class Mail {
 		return LIST_PAGE + FORCE_REDIRECT;
 	}
 
-	public String reply(String messageId) {
+	public String reply(String messageId) throws MessagingException {
 		System.err.println("Try to reply " + messageId);
 		Message m = findMessageById(messageId);
 		String to = "ian@darwinsys.com";
 		String subj = "subject";
-		return COMPOSE_PAGE + "?recipient=" + to + "&subject=" + subj;;
+		return COMPOSE_PAGE + "?recipient=" + to + "&subject=" + subj;
 	}
 	
 	public String gotoNext() {
