@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -46,6 +47,7 @@ public class Mail {
 	private boolean loggedIn;
 	private String userName;
 	private String password;
+	private MessageBean messageBean;
 	private final static String DOMAIN = "darwinsys.com";
 
 	public Mail() {
@@ -192,6 +194,19 @@ public class Mail {
 		message = mFolder.getMessage(number);
 	}
 	
+	public void wireMessageBean(MessageBean mb) {
+		this.messageBean = mb;
+	}
+	
+	@Produces
+	public MessageBean getMessageBean() {
+		try {
+			return this.messageBean;
+		} finally {
+			this.messageBean = null;
+		}
+	}
+	
 	public Message getMessage() {
 		return message;
 	}
@@ -290,9 +305,15 @@ public class Mail {
 	public String reply(String messageId) throws MessagingException {
 		System.err.println("Try to reply " + messageId);
 		Message m = findMessageById(messageId);
-		String to = "ian@darwinsys.com";
-		String subj = "subject";
-		return COMPOSE_PAGE + "?recipient=" + to + "&subject=" + subj;
+		String subj = m.getSubject();
+		if (!subj.startsWith("Re:")) {
+			subj = "Re: " + subj;
+		}
+		MessageBean mb = new MessageBean();
+		mb.setRecipient(m.getFrom()[0].toString());
+		mb.setSubject(subj);
+		wireMessageBean(mb);
+		return COMPOSE_PAGE + "?recipient=" + m.getFrom()[0].toString() + "&subject=" + subj;
 	}
 	
 	public String gotoNext() {
