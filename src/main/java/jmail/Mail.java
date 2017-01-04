@@ -55,9 +55,9 @@ public class Mail {
 	public void initProps() {
 		System.out.println("Mail.initProps()");
 		p = mSession.getProperties();
-		p.setProperty("mail.imaps.host", "dos.old");
+		p.setProperty("mail.imaps.host", "localhost");
 		p.put("mail.imaps.starttls.enable", true);
-		p.setProperty("mail.imaps.ssl.trust", "dos.old");
+		p.setProperty("mail.imaps.ssl.trust", "localhost");
 		p.put("mail.imaps.ssl.enable", true);
 	}
 	
