@@ -200,11 +200,10 @@ public class Mail {
 
 	@Produces
 	public MessageBean getMessageBean() {
-		try {
-			return messageBean == null ? new MessageBean() : messageBean;
-		} finally {
-			this.messageBean = null;
+		if (messageBean == null) {
+			messageBean = new MessageBean();
 		}
+		return messageBean;
 	}
 	
 	public Message getMessage() {
