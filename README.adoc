@@ -24,7 +24,7 @@ to peep at my messages, but that's all.
 == Status
 
 Connects, prints a few mail messages in the Inbox page, lets you view 
-non-HTML messages in the Message page. Woohoo!
+non-HTML messages in the Message page. Can send simple messages. Woohoo!
 
 == How-To
 
