@@ -197,11 +197,11 @@ public class Mail {
 	public void wireMessageBean(MessageBean mb) {
 		this.messageBean = mb;
 	}
-	
+
 	@Produces
 	public MessageBean getMessageBean() {
 		try {
-			return this.messageBean;
+			return messageBean == null ? new MessageBean() : messageBean;
 		} finally {
 			this.messageBean = null;
 		}
