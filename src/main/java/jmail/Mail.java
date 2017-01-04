@@ -194,6 +194,10 @@ public class Mail {
 		message = mFolder.getMessage(number);
 	}
 	
+	public Message getMessage() {
+		return message;
+	}
+	
 	public void wireMessageBean(MessageBean mb) {
 		this.messageBean = mb;
 	}
@@ -204,10 +208,6 @@ public class Mail {
 			messageBean = new MessageBean();
 		}
 		return messageBean;
-	}
-	
-	public Message getMessage() {
-		return message;
 	}
 	
 	/** Return the textual content of the message as a String;
