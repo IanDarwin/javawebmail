@@ -34,6 +34,7 @@ import javax.mail.internet.MimeMultipart;
 public class Mail {
 
 	private static final String LIST_PAGE = "Inbox";
+	private static final String COMPOSE_PAGE = "Compose";
 	private static final String FORCE_REDIRECT = "";
 
 	@Resource(mappedName="java:jboss/mail/Default")
@@ -288,11 +289,18 @@ public class Mail {
 
 	public String reply(String messageId) {
 		System.err.println("Try to reply " + messageId);
-		return LIST_PAGE + FORCE_REDIRECT;
+		Message m = findMessageById(messageId);
+		String to = "ian@darwinsys.com";
+		String subj = "subject";
+		return COMPOSE_PAGE + "?recipient=" + to + "&subject=" + subj;;
 	}
 	
 	public String gotoNext() {
 		System.err.println("GoTo Next ");
+		return LIST_PAGE + FORCE_REDIRECT;
+	}
+	public String gotoPrev() {
+		System.err.println("GoTo Prev ");
 		return LIST_PAGE + FORCE_REDIRECT;
 	}
 }
