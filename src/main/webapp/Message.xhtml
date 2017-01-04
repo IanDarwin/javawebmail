@@ -27,7 +27,7 @@
 				action="#{mail.reply(mail.message.getHeader('message-id')[0])}"/>
 			<p:commandButton value="Delete" ajax="false" 
 				action="#{mail.delete(mail.message.getHeader('message-id')[0])}"/>
-			<p:commandButton value="Pref" ajax="false" 
+			<p:commandButton value="Previous" ajax="false" 
 				action="#{mail.gotoPrevious}"/>
 		</h:form>
 
