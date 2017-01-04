@@ -299,7 +299,7 @@ public class Mail {
 		System.err.println("GoTo Next ");
 		return LIST_PAGE + FORCE_REDIRECT;
 	}
-	public String gotoPrev() {
+	public String gotoPrevious() {
 		System.err.println("GoTo Prev ");
 		return LIST_PAGE + FORCE_REDIRECT;
 	}
