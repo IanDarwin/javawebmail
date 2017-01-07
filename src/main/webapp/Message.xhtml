@@ -14,6 +14,8 @@
 <ui:define name="pageTitle">Mail: Message</ui:define>
 <ui:define name="body">
 
+	<h:form>
+
 	<p:panel rendered="#{!mail.loggedIn}">
 		Please login first!
 	</p:panel>
@@ -25,10 +27,15 @@
 				action="#{mail.gotoNext}"/>
 			<p:commandButton value="Reply" ajax="false" 
 				action="#{mail.reply(mail.message.getHeader('message-id')[0])}"/>
-			<p:commandButton value="Delete" ajax="false" 
-				action="#{mail.delete(mail.message.getHeader('message-id')[0])}"/>
+			<p:commandButton value="Delete" action="#{mail.delete(message.message.messageId)}" icon="ui-icon-trash">
+				<p:confirm header="Confirm Deletion" message="Really delete this message?" icon="ui-icon-alert" />
+			</p:commandButton>
 			<p:commandButton value="Previous" ajax="false" 
 				action="#{mail.gotoPrevious}"/>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
 
 		<p><b>From:</b> 
@@ -53,5 +60,7 @@
 		<p><h:outputText escape="false" value=" #{mail.content}"/></p>
 
 	</p:panel>
+
+	</h:form>
 </ui:define>
 </ui:composition>

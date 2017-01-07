@@ -44,15 +44,8 @@
 			<h:outputLink value="MessageReply.web">
 				Reply
 			</h:outputLink>
-			<p:commandButton value="Delete" action="#{mail.delete(message.message.messageId)}" icon="ui-icon-trash">
-				<p:confirm header="Confirm Deletion" message="Really delete this member?" icon="ui-icon-alert" />
-			</p:commandButton>
 		</p:column>
 	</p:dataTable>
-	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-		<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-	</p:confirmDialog>
 	</p:panel>
 </ui:define>
 </ui:composition>
