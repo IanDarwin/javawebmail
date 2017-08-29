@@ -1,6 +1,6 @@
-= JavaWebMail
+= JavaWebMail - JSF WebMail
 
-WTF? _Another_ web email client? Why?
+WTF? _Another_ webmail client? Why?
 
 This is meant to be the world's _most minimal mail messager_ for Java EE Web.
 It only intends to:
@@ -29,7 +29,8 @@ non-HTML messages in the Message page. Can send simple messages. Woohoo!
 == How-To
 
 . Pick a web app and context (subdirectory), and configure them:
-.. For wildfly deployment, `cd src/main/webapp/WEB-INF; cp jb*sample jboss-web.xml; vi jb*.xml`
+.. For wildfly deployment,
+`cd src/main/webapp/WEB-INF; cp jb*sample jboss-web.xml; vi jb*.xml`
 .. For other app servers, do what you do on them, or RTFM.
 . mvn package
 . Deploy. E.g, mvn wildfly:deploy
